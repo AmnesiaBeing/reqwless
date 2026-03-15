@@ -3,7 +3,7 @@ name = "reqwless"
 version = "0.14.0"
 edition = "2024"
 resolver = "2"
-rust-version = "1.91"
+rust-version = "1.85"
 description = "HTTP client for embedded devices"
 documentation = "https://docs.rs/reqwless"
 readme = "README.md"
@@ -14,27 +14,26 @@ keywords = ["embedded", "async", "http", "no_std"]
 exclude = [".github"]
 
 [dependencies]
-buffered-io = { version = "0.6" }
-embedded-io = { version = "0.7" }
-embedded-io-async = { version = "0.7" }
+buffered-io = { version = "0.6", default-features = false }
+embedded-io = { version = "0.7", default-features = false }
+embedded-io-async = { version = "0.7", default-features = false }
 embedded-nal-async = "0.9.0"
 httparse = { version = "1.8.0", default-features = false }
-heapless = "0.9"
+heapless = { version = "0.9", default-features = false }
 hex = { version = "0.4", default-features = false }
 base64 = { version = "0.21.0", default-features = false }
-rand_core = { version = "0.6.3", default-features = true }
-log = { version = "0.4", optional = true }
+rand_core = { version = "0.6.3", default-features = false }
+log = { version = "0.4", optional = true, default-features = false }
 defmt = { version = "0.3", optional = true }
-pkcs8 = "0.10.2"
+pkcs8 = { version = "0.10.2", default-features = false }
 p256 = { version = "0.13", default-features = false, features = [
     "ecdh",
     "ecdsa",
     "sha256",
 ] }
-embedded-tls = { git = "https://github.com/drogue-iot/embedded-tls.git", default-features = false, features = ["rustpki"], optional = true }
+embedded-tls = { path = "../embedded-tls", default-features = false, features = ["alloc"], optional = true }
 rand_chacha = { version = "0.3", default-features = false }
-nourl = "0.1.2"
-esp-mbedtls = { version = "0.1", git = "https://github.com/esp-rs/esp-mbedtls.git", optional = true }
+nourl = { version = "0.1.2", default-features = false }
 
 [dev-dependencies]
 hyper = { version = "0.14.23", features = ["full"] }
@@ -50,6 +49,7 @@ rand = "0.8"
 
 [features]
 default = ["embedded-tls"]
+embedded-tls = ["dep:embedded-tls"]
 rsa = ["embedded-tls?/alloc", "embedded-tls?/rsa"]
 p384 = ["embedded-tls?/p384"]
 ed25519 = ["embedded-tls?/ed25519"]
